@@ -1,6 +1,13 @@
 # Excel Add-In for Interactive Brokers TWS
 This Excel Add-In provides an easy way to stream market data from Trader Workstation using the ActiveX API provided by Interactive Brokers.
 
+## How to install:
+
+- Enable ActiveX Clients in TWS API settings
+- Import Add-In in Excel
+- Open VBA Editor
+- Change port in module "Connection_Details" to match port in TWS API settings
+
 
 ## Available worksheet functions:
 
@@ -30,6 +37,7 @@ This Excel Add-In provides an easy way to stream market data from Trader Worksta
 
 ## Currently working on
 
+  - Error handling
   - Options, warrants, structured products
   - Option strategies
   - Account and Portfolio details
