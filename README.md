@@ -2,22 +2,34 @@
 This Excel Add-In provides an easy way to stream market data from Trader Workstation using the ActiveX API provided by Interactive Brokers.
 
 
-At the moment these Worksheet functions are available:
+## Available worksheet functions:
 
-sub_mktdata(id, symbol, secType, exchange, ccy)
+##### =sub_mktdata(id, symbol, secType, exchange, ccy)
 
   Subscribes to market data for the specified instrument.
   
-    id: Unique identifier (integer) for the data stream
-    symbol: IB Ticker for the instrument, e.g. "AAPL", "GOOGL"
-    secType: Security type, e.g. "STK", "IND"
-    exchange: Exchange, e.g. "SMART", "ISLAND", "IBIS"
-    ccy: Currency, e.g. "USD", "EUR"
+    id:         Unique identifier (integer) for the data stream
+    symbol:     IB Ticker for the instrument, e.g. "AAPL", "GOOGL"
+    secType:    Security type, e.g. "STK", "IND"
+    exchange:   Exchange, e.g. "SMART", "ISLAND", "IBIS"
+    ccy:        Currency, e.g. "USD", "EUR"
   
   
-IBDP(id, datapoint)
+##### =IBDP(id, datapoint)
 
   Returns the specified datapoint for the market data stream with identifier id.
   
-    id: Unique identifier (integer) for the data stream
-    datapoint: "bid", "ask", "last", "close", "bid_size", "ask_size"
+    id:         Unique identifier (integer) for the data stream
+    datapoint:  "bid", "ask", "last", "close", "bid_size", "ask_size"
+    
+##### =cancel_mktdata(id)
+
+  Cancels the market data stream with identifier id.
+  
+    id:         Unique identifier (integer) for the data stream
+
+## Currently working on
+
+  - Options, warrants, structured products
+  - Option strategies
+  - Account and Portfolio details
