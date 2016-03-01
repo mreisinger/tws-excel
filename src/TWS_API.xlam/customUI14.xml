@@ -1,0 +1,16 @@
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="onload">
+	<ribbon startFromScratch="false">
+		<tabs>
+			<tab id="tab01" label="TWS API">
+				<group id="grp01" label="Connect" >
+					<button id="tgb01" label="Connect TWS" imageMso="AcceptInvitation" onAction = "TWS_Connect" size="large"/>
+					<button id="tgb02" label="Disconnect TWS" imageMso="Delete" onAction = "TWS_Disconnect"
+size="large"/>
+				</group>
+				<group id="grp02" label="Connection Details" >
+					<button id="tgb03" label="Change Port" imageMso="PageMenu" onAction = "change_port" size="large"/>
+				</group>
+			</tab>
+		</tabs>
+	</ribbon>
+</customUI>
