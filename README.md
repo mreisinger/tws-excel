@@ -5,31 +5,44 @@ This Excel Add-In provides an easy way to stream market data from Trader Worksta
 
 - Enable ActiveX Clients in TWS API settings
 - Import Add-In in Excel
-- Open VBA Editor
-- Change port in module "Connection_Details" to match port in TWS API settings
+- Change connection settings (in ribbon "TWS API")
 
 
 ## Available worksheet functions:
 
-##### =sub_mktdata(id, symbol, secType, exchange, ccy)
+#### =sub_mktdata(id, symbol, secType, exchange, ccy, optional expiry, optional right, optional strike, optional multiplier)
 
   Subscribes to market data for the specified instrument.
   
+##### Stocks
+  
     id:         Unique identifier (integer) for the data stream
     symbol:     IB Ticker for the instrument, e.g. "AAPL", "GOOGL"
-    secType:    Security type, e.g. "STK", "IND"
+    secType:    Security type, e.g. "STK", "OPT", "FUT"
     exchange:   Exchange, e.g. "SMART", "ISLAND", "IBIS"
     ccy:        Currency, e.g. "USD", "EUR"
   
+##### Futures:
   
-##### =IBDP(id, datapoint)
+    In addition to parameters listed under stocks:
+    expiry:     Expiry month, "YYYYMM"
+
+##### Options
+  
+    In addition to parameters listed under stocks:
+    expiry:     Expiry date, "YYYYMMDD"
+    right:      Call or Put: "C", "P"
+    strike:     Strike price
+    multiplier: Multiplier, e.g. 100
+  
+#### =IBDP(id, datapoint)
 
   Returns the specified datapoint for the market data stream with identifier id.
   
     id:         Unique identifier (integer) for the data stream
     datapoint:  "bid", "ask", "last", "close", "bid_size", "ask_size"
     
-##### =cancel_mktdata(id)
+#### =cancel_mktdata(id)
 
   Cancels the market data stream with identifier id.
   
@@ -37,7 +50,8 @@ This Excel Add-In provides an easy way to stream market data from Trader Worksta
 
 ## Currently working on
 
-  - Error handling
-  - Options, warrants, structured products
+  - More datapoints, generic ticks
+  - Option chain
   - Option strategies
   - Account and Portfolio details
+  - Error handling
