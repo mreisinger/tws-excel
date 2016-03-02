@@ -1,0 +1,96 @@
+Attribute VB_Name = "IncomingTicks"
+Public Sub UpdateArrayWithPrice(id As Long, tickType As Long, price As Double)
+    
+    With arMktData(id)
+        Select Case tickType
+            Case BID_PRICE
+                .m_BidPrice = price
+            Case ASK_PRICE
+                .m_AskPrice = price
+            Case LAST_PRICE
+                .m_LastPrice = price
+            Case CLOSE_PRICE
+                .m_ClosePrice = price
+        End Select
+    End With
+    
+    ActiveSheet.Calculate
+    
+End Sub
+
+
+Public Sub UpdateArrayWithSize(id As Long, tickType As Long, size As Long)
+
+    With arMktData(id)
+        Select Case tickType
+            Case BID_SIZE
+                .m_BidSize = size
+            Case ASK_SIZE
+                .m_AskSize = size
+            Case LAST_SIZE
+                .m_LastSize = size
+        End Select
+    End With
+   
+    ActiveSheet.Calculate
+    
+End Sub
+
+
+Public Sub UpdateArrayWithString(id As Long, tickType As Long, value As String)
+
+    With arMktData(id)
+        Select Case tickType
+            Case LAST_TIMESTAMP
+                .m_LastTimeStamp = value
+        End Select
+    End With
+
+    ActiveSheet.Calculate
+
+End Sub
+
+
+Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal contractDetails As TWSLib.IContractDetails)
+    
+    With arConDetails(reqId)
+        .m_conId = contractDetails.Summary.conId
+        .m_symbol = contractDetails.Summary.symbol
+        .m_secType = contractDetails.Summary.secType
+        .m_lastTradeDateOrContractMonth = contractDetails.Summary.lastTradeDateOrContractMonth
+        .m_strike = contractDetails.Summary.strike
+        .m_right = contractDetails.Summary.Right
+        .m_multiplier = contractDetails.Summary.multiplier
+        .m_exchange = contractDetails.Summary.exchange
+        .m_primaryExchange = contractDetails.Summary.primaryExchange
+        .m_currency = contractDetails.Summary.currency
+        .m_localSymbol = contractDetails.Summary.localSymbol
+        '.m_orderTypes = contractDetails.orderTypes
+        .m_validExchanges = contractDetails.validExchanges
+        .m_minTick = contractDetails.minTick
+        .m_marketName = contractDetails.marketName
+        .m_tradingClass = contractDetails.Summary.tradingClass
+        .m_priceMagnifier = contractDetails.priceMagnifier
+        .m_evRule = contractDetails.evRule
+        .m_evMultiplier = contractDetails.evMultiplier
+        .m_contractMonth = contractDetails.contractMonth
+        .m_industry = contractDetails.industry
+        .m_category = contractDetails.Category
+        .m_subcategory = contractDetails.subcategory
+        .m_timeZoneId = contractDetails.timeZoneId
+        .m_tradingHours = contractDetails.tradingHours
+        .m_liquidHours = contractDetails.liquidHours
+    End With
+
+End Sub
+
+
+Public Sub calc_sheet()
+
+    'ActiveSheet.Calculate
+    'allowRefresh = False
+    Dim test As Object
+    
+    Debug.Print test.Name
+    
+End Sub

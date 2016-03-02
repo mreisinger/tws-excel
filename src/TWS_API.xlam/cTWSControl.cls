@@ -235,7 +235,7 @@ Private Sub m_TWSControl_contractDetailsEx(ByVal reqId As Long, ByVal contractDe
     If contractDetails.Summary.secType = SECTYPE_BOND Then
         Call ThisWorkbook.Sheets(SHEET_NAME_BONDCONTRACTDETAILS).UpdateContractDetails(reqId, contractDetails)
     Else
-        Call ThisWorkbook.Sheets(SHEET_NAME_CONTRACTDETAILS).UpdateContractDetails(reqId, contractDetails)
+        Call UpdateContractDetails(reqId, contractDetails)
     End If
 End Sub
 

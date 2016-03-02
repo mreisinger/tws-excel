@@ -1,6 +1,8 @@
 Attribute VB_Name = "Util"
 Public TWS As cTWSControl
+Public arID(500, 1) As Variant
 Public arMktData(500) As mktDataRecord
+Public arConDetails(500) As conDetails
 Public allowRefresh As Boolean
 Public starttime As Date
 
@@ -10,8 +12,6 @@ Public clientId As String
 
 Public Type mktDataRecord
     m_secType As String
-    
-    ' tick price
     m_BidPrice As Double
     m_BidSize As Double
     m_AskPrice As Double
@@ -20,6 +20,35 @@ Public Type mktDataRecord
     m_LastSize As Double
     m_ClosePrice As Double
     m_LastTimeStamp As String
+End Type
+
+Public Type conDetails
+    m_conId As Long
+    m_symbol As String
+    m_secType As String
+    m_lastTradeDateOrContractMonth As String
+    m_strike As Double
+    m_right As String
+    m_multiplier As String
+    m_exchange As String
+    m_primaryExchange As String
+    m_currency As String
+    m_localSymbol As String
+    m_orderTypes As String
+    m_validExchanges As String
+    m_minTick As Double
+    m_marketName As String
+    m_tradingClass As String
+    m_priceMagnifier As Long
+    m_evRule As String
+    m_evMultiplier As Double
+    m_contractMonth As String
+    m_industry As String
+    m_category As String
+    m_subcategory As String
+    m_timeZoneId As String
+    m_tradingHours As String
+    m_liquidHours As String
 End Type
 
 Public Enum tickType
