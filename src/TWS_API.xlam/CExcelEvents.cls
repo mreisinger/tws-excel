@@ -15,5 +15,9 @@ Private Sub Class_Initialize()
 End Sub
 
 Private Sub App_WorkbookOpen(ByVal Wb As Workbook)
-    'TWS_Connect
+    Dim ctl As IRibbonControl
+    
+    If Wb.Name = "TWS_API.xlam" Then
+        TWS_Connect ctl
+    End If
 End Sub

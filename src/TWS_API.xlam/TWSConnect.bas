@@ -5,6 +5,7 @@ Public Sub onload(ribbon As IRibbonUI)
     Set objRibbon = ribbon
 End Sub
 
+
 Public Function TWS_Connect(control As IRibbonControl)
 Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
 
@@ -31,9 +32,12 @@ Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
         End If
     End If
     Application.StatusBar = "TWS connected"
+    
 End Function
 
+
 Public Function TWS_Disconnect(control As IRibbonControl)
+
     If Not (TWS Is Nothing) And TWS.m_isConnected Then
         Call TWS.m_TWSControl.Disconnect
         TWS.m_isConnected = False
@@ -41,7 +45,9 @@ Public Function TWS_Disconnect(control As IRibbonControl)
         MsgBox ("Not connected")
     End If
     Application.StatusBar = "TWS not connected"
+    
 End Function
+
 
 Public Sub getConnectionDetails()
 
@@ -50,6 +56,7 @@ Public Sub getConnectionDetails()
     clientId = GetSetting("Microsoft Excel", "TWS API", "ClientID", "")
 
 End Sub
+
 
 Public Sub change_port(control As IRibbonControl)
 
