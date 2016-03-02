@@ -41,7 +41,55 @@ This Excel Add-In provides an easy way to stream market data from Trader Worksta
   
     id:         Unique identifier (integer) for the data stream
     datapoint:  "bid", "ask", "last", "close", "bid_size", "ask_size"
-    
+
+#### =req_ContractDetails(id, secID, exchange)
+
+  Downloads contract details for the specified asset code.
+  
+    id:         Unique identifier (integer) for the data stream
+    secID:      ISIN or WKN, e.g. "US0378331005"
+    exchange:   Exchange, e.g. "SMART", "ISLAND", "IBIS"
+  
+#### =req_ContractDetailsWithTicker(id, symbol, secType, exchange, ccy, optional expiry, optional right, optional strike, optional multiplier)
+
+  Downloads contract details for the specified instrument.
+  
+##### Stocks
+  
+    id:         Unique identifier (integer) for the data stream
+    symbol:     IB Ticker for the instrument, e.g. "AAPL", "GOOGL"
+    secType:    Security type, e.g. "STK", "OPT", "FUT"
+    exchange:   Exchange, e.g. "SMART", "ISLAND", "IBIS"
+    ccy:        Currency, e.g. "USD", "EUR"
+  
+##### Futures:
+  
+    In addition to parameters listed under stocks:
+    expiry:     Expiry month, "YYYYMM"
+
+##### Options
+  
+    In addition to parameters listed under stocks:
+    expiry:     Expiry date, "YYYYMMDD"
+    right:      Call or Put: "C", "P"
+    strike:     Strike price
+    multiplier: Multiplier, e.g. "100"
+
+#### =displayContractDetails(id, transpose)
+
+  Returns an array with contract details
+  
+    id:         Unique identifier (integer) for the data stream
+    transpose:  "TRUE" or "FALSE"
+
+#### =assetCode(type1, type2, secID)
+
+  Converts asset codes
+  
+    type1:      "ISIN" or "WKN"
+    type2:      "ISIN" or "WKN"
+    secID:      ISIN or WKN, e.g. "US0378331005"
+
 #### =cancel_mktdata(id)
 
   Cancels the market data stream with identifier id.
