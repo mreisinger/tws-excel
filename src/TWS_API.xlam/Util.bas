@@ -3,7 +3,6 @@ Public TWS As cTWSControl
 Public arID(500, 1) As Variant
 Public arMktData(500) As mktDataRecord
 Public arConDetails(500) As conDetails
-Public details(24, 1) As Variant
 Public allowRefresh As Boolean
 Public starttime As Date
 
