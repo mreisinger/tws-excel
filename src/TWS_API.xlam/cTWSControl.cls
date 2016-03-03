@@ -56,9 +56,8 @@ End Sub
 Private Sub m_TWSControl_errMsg(ByVal id As Long, ByVal errorCode As Long, ByVal errorMsg As String)
    
     On Error Resume Next
-    If errorCode <> 2104 And errorCode <> 2106 Then
-        MsgBox ("ID: " & id & "  " & "Code: " & errorCode & ": " & errorMsg)
-    End If
+    
+    Call LogMessage(id, errorCode, errorMsg)
     
 End Sub
 

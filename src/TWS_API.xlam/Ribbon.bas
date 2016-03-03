@@ -1,8 +1,8 @@
-Attribute VB_Name = "TWSConnect"
+Attribute VB_Name = "Ribbon"
 Public objRibbon As IRibbonUI
 
-Public Sub onload(ribbon As IRibbonUI)
-    Set objRibbon = ribbon
+Public Sub onload(Ribbon As IRibbonUI)
+    Set objRibbon = Ribbon
 End Sub
 
 
@@ -13,7 +13,7 @@ Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
     
     If connectionPort = "" Or clientId = "" Then
         MsgBox "Please check connection details"
-        UserForm1.Show
+        port.Show
         Exit Function
     End If
     
@@ -60,6 +60,21 @@ End Sub
 
 Public Sub change_port(control As IRibbonControl)
 
-    UserForm1.Show
+    port.Show
+
+End Sub
+
+
+Public Sub show_log(control As IRibbonControl)
+
+    ErrLog.Show
+    ErrLog.TextBox1.SetFocus
+
+End Sub
+
+
+Public Sub show_settings(control As IRibbonControl)
+
+    Settings.Show
 
 End Sub

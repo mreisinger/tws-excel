@@ -83,7 +83,7 @@ Attribute IBDP.VB_Description = "Returns the specified data point. ""bid"", ""as
 End Function
 
 
-Public Function req_ContractDetails(id As Long, code As String, exchange As String) As String
+Public Function req_ContractDetails(id As Long, secID As String, exchange As String) As String
     
     If Not (TWS Is Nothing) Then
         If TWS.m_isConnected Then
@@ -93,12 +93,12 @@ Public Function req_ContractDetails(id As Long, code As String, exchange As Stri
                 Set TWS.m_contractInfo = TWS.m_TWSControl.createContract()
                 
                 With TWS.m_contractInfo
-                    If Len(code) = 12 Then
+                    If Len(secID) = 12 Then
                         .secIdType = "ISIN"
-                        .secID = code
-                    ElseIf Len(code) = 6 Then
+                        .secID = secID
+                    ElseIf Len(secID) = 6 Then
                         .secIdType = "ISIN"
-                        .secID = assetCode("WKN", "ISIN", code)
+                        .secID = assetCode("WKN", "ISIN", secID)
                     Else
                         req_ContractDetails = "Wrong Asset code"
                         Exit Function

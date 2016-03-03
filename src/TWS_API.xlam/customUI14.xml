@@ -4,11 +4,14 @@
 			<tab id="tab01" label="TWS API">
 				<group id="grp01" label="Connect" >
 					<button id="tgb01" label="Connect TWS" imageMso="AcceptInvitation" onAction = "TWS_Connect" size="large"/>
-					<button id="tgb02" label="Disconnect TWS" imageMso="Delete" onAction = "TWS_Disconnect"
-size="large"/>
+					<button id="tgb02" label="Disconnect TWS" imageMso="Delete" onAction = "TWS_Disconnect" size="large"/>
 				</group>
-				<group id="grp02" label="Connection Details" >
+				<group id="grp02" label="Settings" >
 					<button id="tgb03" label="Change Port" imageMso="PageMenu" onAction = "change_port" size="large"/>
+					<button id="tgb04" label="Settings" imageMso="ControlsGallery" onAction = "show_settings" size="large"/>
+				</group>
+				<group id="grp03" label="Error Log" >
+					<button id="tgb05" label="Log" imageMso="HighImportance" onAction = "show_log" size="large"/>
 				</group>
 			</tab>
 		</tabs>
