@@ -6,3 +6,19 @@ Public Function transposeArray(myArr() As Variant) As Variant
     transposeArray = Application.transpose(myArr)
 
 End Function
+
+
+Public Function regexCompare(strInput As String, strPattern As String) As Boolean
+
+    Dim regEx As New RegExp
+    
+    regEx.Pattern = strPattern
+
+
+    If regEx.test(strInput) Then
+        regexCompare = True
+    Else
+        regexCompare = False
+    End If
+
+End Function

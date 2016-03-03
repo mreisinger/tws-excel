@@ -33,6 +33,7 @@ Private Sub Class_Initialize()
     m_maxDouble = m_TWSControl.nbboPriceCap
     m_maxLong = m_TWSControl.minQty
     m_isConnected = False
+    refreshHistData = True
     m_showErrorMsgBox = False
 End Sub
 
@@ -222,7 +223,7 @@ End Sub
 '-----------------------------
 Private Sub m_TWSControl_historicalData(ByVal reqId As Long, ByVal histDate As String, ByVal histOpen As Double, ByVal histHigh As Double, ByVal histLow As Double, ByVal histClose As Double, ByVal histVolume As Long, ByVal barCount As Long, ByVal WAP As Double, ByVal hasGaps As Long)
     On Error Resume Next
-    Call ThisWorkbook.Sheets(SHEET_NAME_HISTDATA).UpdateHistoricalData(reqId, histDate, histOpen, histHigh, histLow, histClose, histVolume, barCount, WAP, hasGaps)
+    Call UpdateHistoricalData(reqId, histDate, histOpen, histHigh, histLow, histClose, histVolume, barCount, WAP, hasGaps)
 End Sub
 
 '---------------------------------------

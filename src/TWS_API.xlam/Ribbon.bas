@@ -22,7 +22,7 @@ Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
     End If
     
     If TWS Is Nothing Then
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     Else
         If Not TWS.m_isConnected Then
             Call TWS.m_TWSControl.Connect(connectionHost, connectionPort, clientId, False)
@@ -42,7 +42,7 @@ Public Function TWS_Disconnect(control As IRibbonControl)
         Call TWS.m_TWSControl.Disconnect
         TWS.m_isConnected = False
     Else
-        MsgBox ("Not connected")
+        MsgBox (str_not_connected)
     End If
     Application.StatusBar = "TWS not connected"
     
