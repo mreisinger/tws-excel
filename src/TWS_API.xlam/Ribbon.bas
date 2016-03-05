@@ -10,6 +10,8 @@ Public Function TWS_Connect(control As IRibbonControl)
 Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
 
     getConnectionDetails
+    m_showErrorMsgBox = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value
+    m_showStatusBar = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value
     
     If connectionPort = "" Or clientId = "" Then
         MsgBox "Please check connection details"
@@ -22,7 +24,7 @@ Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
     End If
     
     If TWS Is Nothing Then
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     Else
         If Not TWS.m_isConnected Then
             Call TWS.m_TWSControl.Connect(connectionHost, connectionPort, clientId, False)
@@ -31,7 +33,10 @@ Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
             MsgBox ("Already connected")
         End If
     End If
-    Application.StatusBar = "TWS connected"
+    
+    If m_showStatusBar Then
+        Application.StatusBar = "TWS connected"
+    End If
     
 End Function
 
@@ -42,18 +47,21 @@ Public Function TWS_Disconnect(control As IRibbonControl)
         Call TWS.m_TWSControl.Disconnect
         TWS.m_isConnected = False
     Else
-        MsgBox ("Not connected")
+        MsgBox (str_not_connected)
     End If
-    Application.StatusBar = "TWS not connected"
+    
+    If m_showStatusBar Then
+        Application.StatusBar = "TWS not connected"
+    End If
     
 End Function
 
 
 Public Sub getConnectionDetails()
 
-    connectionHost = GetSetting("Microsoft Excel", "TWS API", "Host", "")
-    connectionPort = GetSetting("Microsoft Excel", "TWS API", "Port", "")
-    clientId = GetSetting("Microsoft Excel", "TWS API", "ClientID", "")
+    connectionHost = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(1, 2).value
+    connectionPort = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(2, 2).value
+    clientId = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(3, 2).value
 
 End Sub
 

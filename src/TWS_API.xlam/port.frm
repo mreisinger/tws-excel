@@ -14,9 +14,11 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub CommandButton1_Click()
-    SaveSetting "Microsoft Excel", "TWS API", "Host", TextBox1.Text
-    SaveSetting "Microsoft Excel", "TWS API", "Port", TextBox2.Text
-    SaveSetting "Microsoft Excel", "TWS API", "ClientID", TextBox3.Text
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(1, 2).value = TextBox1.Text
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(2, 2).value = TextBox2.Text
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(3, 2).value = TextBox3.Text
+    
+    Workbooks("TWS_API.xlam").Save
     Unload port
 End Sub
 
@@ -28,8 +30,8 @@ Private Sub UserForm_Activate()
     port.Top = Application.Top + 300
     port.Left = Application.Left + 500
     
-    TextBox1.Text = GetSetting("Microsoft Excel", "TWS API", "Host", "")
-    TextBox2.Text = GetSetting("Microsoft Excel", "TWS API", "Port", "")
-    TextBox3.Text = GetSetting("Microsoft Excel", "TWS API", "ClientID", "")
+    TextBox1.Text = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(1, 2).value
+    TextBox2.Text = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(2, 2).value
+    TextBox3.Text = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(3, 2).value
 End Sub
 

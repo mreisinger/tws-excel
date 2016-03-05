@@ -40,10 +40,10 @@ Public Function sub_mktdata(id As Long, symbol As String, Optional secType As St
 
             sub_mktdata = "ID " & id
         Else
-            MsgBox ("TWS not connected")
+            MsgBox (str_not_connected)
         End If
     Else
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     End If
 
 End Function
@@ -74,10 +74,10 @@ Attribute IBDP.VB_Description = "Returns the specified data point. ""bid"", ""as
                 End Select
             End With
         Else
-            MsgBox ("TWS not connected")
+            MsgBox (str_not_connected)
         End If
     Else
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     End If
 
 End Function
@@ -112,10 +112,10 @@ Public Function req_ContractDetails(id As Long, secID As String, exchange As Str
             req_ContractDetails = "ID " & id
             
         Else
-            MsgBox ("TWS not connected")
+            MsgBox (str_not_connected)
         End If
     Else
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     End If
 
 End Function
@@ -159,10 +159,10 @@ Public Function req_ContractDetailsWithTicker(id As Long, symbol As String, Opti
             req_ContractDetailsWithTicker = "ID " & id
             
         Else
-            MsgBox ("TWS not connected")
+            MsgBox (str_not_connected)
         End If
     Else
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     End If
 
 End Function
@@ -236,6 +236,77 @@ Public Function displayContractDetails(id As Long, Optional transpose As Boolean
 End Function
 
 
+Public Function IBDH(id As Long, symbol As String, Optional endDate As String = "", Optional secType As String = "STK", _
+                            Optional exchange As String = "SMART", Optional curr As String = "USD", _
+                            Optional expiry As String = "NOEXP", Optional c_p As String = "C", _
+                            Optional strike As Double = 0, Optional multiplier As String = 100) As Variant
+                            
+    If Not (TWS Is Nothing) Then
+        If TWS.m_isConnected Then
+            Application.Volatile
+            If refreshHistData Then
+                Set TWS.m_contractInfo = TWS.m_TWSControl.createContract()
+                
+                With TWS.m_contractInfo
+                    .symbol = UCase(symbol)
+                    .secType = UCase(secType)
+                    .exchange = UCase(exchange)
+                    '.primaryExchange = "IBIS"
+                    .currency = UCase(curr)
+                End With
+                
+                If secType = "OPT" Or secType = "IOPT" Then
+                    With TWS.m_contractInfo
+                        .Right = UCase(c_p)
+                        .strike = strike
+                        .lastTradeDateOrContractMonth = expiry
+                        .multiplier = multiplier
+                    End With
+                End If
+                
+                If secType = "FUT" Then
+                    With TWS.m_contractInfo
+                        .lastTradeDateOrContractMonth = expiry
+                    End With
+                End If
+                
+                If regexCompare(endDate, "^([1-9]|0[1-9]|[1-2][0-9]|3[0-1])\/([1-9]|0[1-9]|1[0-2])\/[1-2]\d{3}$") Then
+                    endDateTime = Format(endDate, "YYYYMMDD") & " 23:59:59 GMT"
+                ElseIf endDate = "" Then
+                    endDateTime = Format(Now, "YYYYMMDD HH:mm:SS") + " GMT"
+                Else
+                    MsgBox "Wrong Date format"
+                End If
+                
+                Duration = "1 D"
+                barSize = "1 day"
+                whatToShow = "TRADES"
+                Dim useRTH As Long
+                Dim formatDate As Long
+                useRTH = 1
+                formatDate = 1
+        
+                ' chart options
+                Dim chartOptions As TWSLib.ITagValueList
+                Set chartOptions = TWS.m_TWSControl.createTagValueList()
+        
+                ' call reqHistoricalDataEx method
+                Call TWS.m_TWSControl.reqHistoricalDataEx(id, TWS.m_contractInfo, endDateTime, Duration, barSize, whatToShow, useRTH, formatDate, chartOptions)
+            Else
+                IBDH = arHistData(id).m_histClose
+                refreshHistData = True
+            End If
+            
+        Else
+            MsgBox (str_not_connected)
+        End If
+    Else
+        MsgBox (str_not_initialized)
+    End If
+
+End Function
+
+
 Public Function cancel_mktdata(id As Integer) As String
 
     If Not (TWS Is Nothing) Then
@@ -256,10 +327,10 @@ Public Function cancel_mktdata(id As Integer) As String
             
             cancel_mktdata = "ID " & id & " canceled"
         Else
-            MsgBox ("TWS not connected")
+            MsgBox (str_not_connected)
         End If
     Else
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     End If
 
 End Function
@@ -286,10 +357,10 @@ Public Function cancel_mktdata_all() As String
             
             cancel_all_mktdata = "All canceled"
         Else
-            MsgBox ("TWS not connected")
+            MsgBox (str_not_connected)
         End If
     Else
-        MsgBox ("TWSControl not initialized")
+        MsgBox (str_not_initialized)
     End If
 
 End Function

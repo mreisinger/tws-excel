@@ -2,13 +2,21 @@ Attribute VB_Name = "Util"
 Public TWS As cTWSControl
 Public arID(500, 1) As Variant
 Public arMktData(500) As mktDataRecord
+Public arHistData(500) As histDataRecord
 Public arConDetails(500) As conDetails
 Public allowRefresh As Boolean
 Public starttime As Date
+Public refreshHistData As Boolean
 
 Public connectionHost As String
 Public connectionPort As String
 Public clientId As String
+
+Public m_showErrorMsgBox As Boolean
+Public m_showStatusBar As Boolean
+
+Public Const str_not_connected = "TWS is not connected"
+Public Const str_not_initialized = "TWS Control is not initialized"
 
 Public Type mktDataRecord
     m_secType As String
@@ -20,6 +28,18 @@ Public Type mktDataRecord
     m_LastSize As Double
     m_ClosePrice As Double
     m_LastTimeStamp As String
+End Type
+
+Public Type histDataRecord
+    m_histDate As String
+    m_histOpen As Double
+    m_histHigh As Double
+    m_histLow As Double
+    m_histClose As Double
+    m_histVolume As Long
+    m_barCount As Long
+    m_WAP As Double
+    m_hasGaps As Long
 End Type
 
 Public Type conDetails

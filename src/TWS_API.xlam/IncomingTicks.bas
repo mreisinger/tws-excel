@@ -85,6 +85,28 @@ Public Sub UpdateContractDetails(ByVal reqId As Long, ByVal contractDetails As T
 End Sub
 
 
+Public Sub UpdateHistoricalData(id As Long, histDate As String, histOpen As Double, histHigh As Double, _
+                                histLow As Double, histClose As Double, histVolume As Long, barCount As Long, _
+                                WAP As Double, hasGaps As Long)
+    
+    With arHistData(id)
+        .m_histDate = histDate
+        .m_histOpen = histOpen
+        .m_histHigh = histHigh
+        .m_histLow = histLow
+        .m_histClose = histClose
+        .m_histVolume = histVolume
+        .m_barCount = barCount
+        .m_WAP = WAP
+        .m_hasGaps = hasGaps
+    End With
+    
+    refreshHistData = False
+    ActiveSheet.Calculate
+    
+End Sub
+
+
 Public Sub calc_sheet()
 
     'ActiveSheet.Calculate
