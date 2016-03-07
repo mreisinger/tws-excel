@@ -1,8 +1,39 @@
 Attribute VB_Name = "WorksheetFunctions"
-Public Function sub_mktdata(id As Long, symbol As String, Optional secType As String = "STK", _
+Public Function sub_mktdata(id As Long, localSymbol As String, _
+                            Optional secType As String = "STK", Optional exchange As String = "SMART") As String
+
+    If Not (TWS Is Nothing) Then
+        If TWS.m_isConnected Then
+            Set TWS.m_contractInfo = TWS.m_TWSControl.createContract()
+            
+            With TWS.m_contractInfo
+                .localSymbol = localSymbol
+                .exchange = exchange
+                .secType = secType
+            End With
+            
+            genericTickList = ""
+            
+            Dim mktDataOptions As TWSLib.ITagValueList
+            Set mktDataOptions = TWS.m_TWSControl.createTagValueList()
+            
+            Call TWS.m_TWSControl.reqMktDataEx(id, TWS.m_contractInfo, genericTickList, 0, mktDataOptions)
+
+            sub_mktdata = "ID " & id
+        Else
+            MsgBox (str_not_connected)
+        End If
+    Else
+        MsgBox (str_not_initialized)
+    End If
+
+End Function
+
+
+Public Function sub_mktdataWithTicker(id As Long, symbol As String, Optional secType As String = "STK", _
                             Optional exchange As String = "SMART", Optional curr As String = "USD", _
                             Optional expiry As String = "NOEXP", Optional c_p As String = "C", _
-                            Optional strike As Double = 0, Optional multiplier As String = 100) As String
+                            Optional strike As Double = 0, Optional multiplier As String = "") As String
 
     If Not (TWS Is Nothing) Then
         If TWS.m_isConnected Then
@@ -16,7 +47,7 @@ Public Function sub_mktdata(id As Long, symbol As String, Optional secType As St
                 .currency = UCase(curr)
             End With
             
-            If secType = "OPT" Or secType = "IOPT" Then
+            If secType = "OPT" Or secType = "IOPT" Or secType = "WAR" Then
                 With TWS.m_contractInfo
                     .Right = UCase(c_p)
                     .strike = strike
@@ -38,7 +69,7 @@ Public Function sub_mktdata(id As Long, symbol As String, Optional secType As St
             
             Call TWS.m_TWSControl.reqMktDataEx(id, TWS.m_contractInfo, genericTickList, 0, mktDataOptions)
 
-            sub_mktdata = "ID " & id
+            sub_mktdataWithTicker = "ID " & id
         Else
             MsgBox (str_not_connected)
         End If
@@ -83,31 +114,30 @@ Attribute IBDP.VB_Description = "Returns the specified data point. ""bid"", ""as
 End Function
 
 
-Public Function req_ContractDetails(id As Long, secID As String, exchange As String) As String
+Public Function req_ContractDetails(id As Long, localSymbol As String, _
+                            Optional secType As String = "STK", Optional exchange As String = "SMART") As String
     
     If Not (TWS Is Nothing) Then
         If TWS.m_isConnected Then
             
-            'If arID(id, 1) = 0 Then
+            Set TWS.m_contractInfo = TWS.m_TWSControl.createContract()
             
-                Set TWS.m_contractInfo = TWS.m_TWSControl.createContract()
+            With TWS.m_contractInfo
+                If Len(localSymbol) = 12 Then
+                    .secIdType = "ISIN"
+                    .secID = localSymbol
+                ElseIf Len(localSymbol) = 9 Then
+                    .secIdType = "CUSIP"
+                    .secID = localSymbol
+                Else
+                    .localSymbol = localSymbol
+                    .secType = secType
+                End If
                 
-                With TWS.m_contractInfo
-                    If Len(secID) = 12 Then
-                        .secIdType = "ISIN"
-                        .secID = secID
-                    ElseIf Len(secID) = 6 Then
-                        .secIdType = "ISIN"
-                        .secID = assetCode("WKN", "ISIN", secID)
-                    Else
-                        req_ContractDetails = "Wrong Asset code"
-                        Exit Function
-                    End If
-                End With
-                
-                Call TWS.m_TWSControl.reqContractDetailsEx(id, TWS.m_contractInfo)
-            '    arID(id, 1) = 1
-            'End If
+                .exchange = exchange
+            End With
+            
+            Call TWS.m_TWSControl.reqContractDetailsEx(id, TWS.m_contractInfo)
             
             req_ContractDetails = "ID " & id
             
@@ -124,7 +154,7 @@ End Function
 Public Function req_ContractDetailsWithTicker(id As Long, symbol As String, Optional secType As String = "STK", _
                             Optional exchange As String = "SMART", Optional curr As String = "USD", _
                             Optional expiry As String = "NOEXP", Optional c_p As String = "C", _
-                            Optional strike As Double = 0, Optional multiplier As String = 100) As String
+                            Optional strike As Double = 0, Optional multiplier As String = "") As String
     
     If Not (TWS Is Nothing) Then
         If TWS.m_isConnected Then
@@ -139,7 +169,7 @@ Public Function req_ContractDetailsWithTicker(id As Long, symbol As String, Opti
                 .currency = UCase(curr)
             End With
             
-            If secType = "OPT" Or secType = "IOPT" Then
+            If secType = "OPT" Or secType = "IOPT" Or secType = "WAR" Then
                 With TWS.m_contractInfo
                     .Right = UCase(c_p)
                     .strike = strike
@@ -189,7 +219,7 @@ Public Function displayContractDetails(id As Long, Optional transpose As Boolean
     details(15, 0) = "Trading Class"
     details(16, 0) = "Price Magnifier"
     details(17, 0) = "ev Rule"
-    details(18, 0) = "ev Multiplierh"
+    details(18, 0) = "ev Multiplier"
     details(19, 0) = "Contract Month"
     details(20, 0) = "Industry"
     details(21, 0) = "Category"
@@ -239,7 +269,7 @@ End Function
 Public Function IBDH(id As Long, symbol As String, Optional endDate As String = "", Optional secType As String = "STK", _
                             Optional exchange As String = "SMART", Optional curr As String = "USD", _
                             Optional expiry As String = "NOEXP", Optional c_p As String = "C", _
-                            Optional strike As Double = 0, Optional multiplier As String = 100) As Variant
+                            Optional strike As Double = 0, Optional multiplier As String = "") As Variant
                             
     If Not (TWS Is Nothing) Then
         If TWS.m_isConnected Then
@@ -255,7 +285,7 @@ Public Function IBDH(id As Long, symbol As String, Optional endDate As String = 
                     .currency = UCase(curr)
                 End With
                 
-                If secType = "OPT" Or secType = "IOPT" Then
+                If secType = "OPT" Or secType = "IOPT" Or secType = "WAR" Then
                     With TWS.m_contractInfo
                         .Right = UCase(c_p)
                         .strike = strike
