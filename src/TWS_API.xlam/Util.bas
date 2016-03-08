@@ -1,22 +1,38 @@
 Attribute VB_Name = "Util"
+Public Declare Sub GetSystemTime Lib "kernel32" (lpSystemTime As SYSTEMTIME)
+
 Public TWS As cTWSControl
 Public arID(500, 1) As Variant
 Public arMktData(500) As mktDataRecord
 Public arHistData(500) As histDataRecord
 Public arConDetails(500) As conDetails
 Public allowRefresh As Boolean
-Public starttime As Date
+Public lastRefresh As Double
 Public refreshHistData As Boolean
 
 Public connectionHost As String
 Public connectionPort As String
 Public clientId As String
 
+Public m_autoConnect As Boolean
 Public m_showErrorMsgBox As Boolean
 Public m_showStatusBar As Boolean
+Public m_limitRefresh As Boolean
+Public m_refreshRate As Integer
 
 Public Const str_not_connected = "TWS is not connected"
 Public Const str_not_initialized = "TWS Control is not initialized"
+
+Public Type SYSTEMTIME
+    wYear As Integer
+    wMonth As Integer
+    wDayOfWeek As Integer
+    wDay As Integer
+    wHour As Integer
+    wMinute As Integer
+    wSecond As Integer
+    wMilliseconds As Integer
+End Type
 
 Public Type mktDataRecord
     m_secType As String

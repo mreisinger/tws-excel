@@ -17,7 +17,9 @@ End Sub
 Private Sub App_WorkbookOpen(ByVal Wb As Workbook)
     Dim ctl As IRibbonControl
     
-    If Wb.Name = "TWS_API.xlam" Then
+    m_autoConnect = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value
+    
+    If Wb.Name = "TWS_API.xlam" And m_autoConnect Then
         TWS_Connect ctl
     End If
 End Sub

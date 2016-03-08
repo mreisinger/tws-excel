@@ -1,6 +1,7 @@
 Attribute VB_Name = "WorksheetFunctions"
 Public Function sub_mktdata(id As Long, localSymbol As String, _
-                            Optional secType As String = "STK", Optional exchange As String = "SMART") As String
+                            Optional secType As String = "STK", Optional exchange As String = "SMART", _
+                            Optional curr As String = "") As String
 
     If Not (TWS Is Nothing) Then
         If TWS.m_isConnected Then
@@ -10,6 +11,7 @@ Public Function sub_mktdata(id As Long, localSymbol As String, _
                 .localSymbol = localSymbol
                 .exchange = exchange
                 .secType = secType
+                .currency = curr
             End With
             
             genericTickList = ""

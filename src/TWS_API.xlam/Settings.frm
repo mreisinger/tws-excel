@@ -14,17 +14,27 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub CommandButton1_Click()
-    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value = showError
-    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value = showStatus
+Application.Calculation = xlCalculateManual
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value = autoConnect
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value = showError
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(6, 2).value = showStatus
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(7, 2).value = limitRefresh
+    Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(8, 2).value = refreshRate.Text
     
+    m_autoConnect = autoConnect
     m_showErrorMsgBox = showError
     m_showStatusBar = showStatus
+    m_limitRefresh = limitRefresh
     
     If m_showStatusBar Then
-        If TWS.m_isConnected Then
-            Application.StatusBar = "TWS connected"
-        Else
+        If TWS Is Nothing Then
             Application.StatusBar = "TWS not connected"
+        Else
+            If TWS.m_isConnected Then
+                Application.StatusBar = "TWS connected"
+            Else
+                Application.StatusBar = "TWS not connected"
+            End If
         End If
     Else
         Application.StatusBar = False
@@ -32,6 +42,7 @@ Private Sub CommandButton1_Click()
     
     Workbooks("TWS_API.xlam").Save
     Unload Settings
+Application.Calculation = xlCalculationAutomatic
 End Sub
 
 
@@ -45,14 +56,29 @@ Private Sub UserForm_Activate()
     Settings.Left = Application.Left + 350
     
     If Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value <> "" Then
-        Settings.showError = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value
+        Settings.autoConnect = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value
+    Else
+        Settings.autoConnect = True
+    End If
+    
+    If Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value <> "" Then
+        Settings.showError = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value
     Else
         Settings.showError = True
     End If
     
-    If Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value <> "" Then
-        Settings.showStatus = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value
+    If Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(6, 2).value <> "" Then
+        Settings.showStatus = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(6, 2).value
     Else
         Settings.showStatus = True
     End If
+    
+    If Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(7, 2).value <> "" Then
+        Settings.limitRefresh = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(7, 2).value
+    Else
+        Settings.limitRefresh = True
+    End If
+    
+    refreshRate.Text = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(8, 2).value
+    
 End Sub

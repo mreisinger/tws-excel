@@ -14,7 +14,11 @@ Public Sub UpdateArrayWithPrice(id As Long, tickType As Long, price As Double)
         End Select
     End With
     
-    ActiveSheet.Calculate
+    If m_limitRefresh Then
+        calc_sheet
+    Else
+        ActiveSheet.Calculate
+    End If
     
 End Sub
 
@@ -32,7 +36,8 @@ Public Sub UpdateArrayWithSize(id As Long, tickType As Long, size As Long)
         End Select
     End With
    
-    ActiveSheet.Calculate
+    'ActiveSheet.Calculate
+    'calc_sheet
     
 End Sub
 
@@ -46,7 +51,7 @@ Public Sub UpdateArrayWithString(id As Long, tickType As Long, value As String)
         End Select
     End With
 
-    ActiveSheet.Calculate
+    'ActiveSheet.Calculate
 
 End Sub
 
@@ -109,10 +114,15 @@ End Sub
 
 Public Sub calc_sheet()
 
-    'ActiveSheet.Calculate
-    'allowRefresh = False
-    Dim test As Object
+    Dim sysTime As SYSTEMTIME
+    GetSystemTime sysTime
     
-    Debug.Print test.Name
+    
+    If (Format(sysTime.wMinute, "00") & Format(sysTime.wSecond, "00") & Format(sysTime.wMilliseconds, "000")) > (lastRefresh + m_refreshRate * 1000) Then
+        ActiveSheet.Calculate
+        lastRefresh = Format(sysTime.wMinute, "00") & Format(sysTime.wSecond, "00") & Format(sysTime.wMilliseconds, "000")
+        Debug.Print lastRefresh
+    End If
+    'allowRefresh = False
     
 End Sub

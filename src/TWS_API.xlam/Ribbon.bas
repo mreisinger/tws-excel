@@ -12,6 +12,8 @@ Attribute TWS_Connect.VB_Description = "Connects to TWS. Port is hardcoded."
     getConnectionDetails
     m_showErrorMsgBox = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(4, 2).value
     m_showStatusBar = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(5, 2).value
+    m_limitRefresh = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(7, 2).value
+    m_refreshRate = Workbooks("TWS_API.xlam").Sheets("Sheet1").Cells(8, 2).value
     
     If connectionPort = "" Or clientId = "" Then
         MsgBox "Please check connection details"
